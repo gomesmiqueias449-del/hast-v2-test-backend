@@ -45,10 +45,14 @@ curl http://127.0.0.1:8000/v2/profile/SEU_USER_ID \
 
 Para alterar o nome, envie `POST /v2/profile/SEU_USER_ID/name` com o mesmo header Bearer e JSON `{"display_name":"NovoNome"}`. O token só autoriza o perfil cujo ID corresponde ao campo `sub` do JWT.
 
+## Publicação no Render
+
+O arquivo `render.yaml` define um Web Service público no plano gratuito e na região Virginia. O Render gera `JWT_SECRET` no próprio serviço; nenhum segredo fica no repositório. A primeira sincronização do Blueprint exige aprovação no Render antes de criar o serviço.
+
+Este plano usa SQLite no filesystem efêmero do serviço gratuito. Portanto, dados de guest e nomes podem ser perdidos em reinícios ou novos deploys. É apropriado para teste, não para dados que precisem de persistência durável; para isso, seria necessário configurar armazenamento persistente ou migrar para um banco gerenciado.
+
 ## Testes
 
 ```bash
 pytest -q
 ```
-
-Esta entrega contém código-fonte local; ela não foi publicada nem conectada ao Render. O SQLite guarda dados no caminho configurado. Antes de expor o serviço publicamente, configure armazenamento durável e controles operacionais apropriados; não use o servidor de desenvolvimento como hospedagem de produção.
